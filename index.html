@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chromatic Board • Colorful Project Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="gradient-bg">
+      <div class="gradient-sphere sphere-1"></div>
+      <div class="gradient-sphere sphere-2"></div>
+      <div class="gradient-sphere sphere-3"></div>
+    </div>
+
+    <div class="app-container">
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <div class="logo">
+            <i class="fas fa-palette"></i>
+            <span>Chromatic<span class="logo-accent">Board</span></span>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <div class="nav-item active" data-page="dashboard">
+            <i class="fas fa-th-large"></i>
+            <span>Dashboard</span>
+            <div class="nav-indicator"></div>
+          </div>
+          <div class="nav-item" data-page="tasks">
+            <i class="fas fa-tasks"></i>
+            <span>Tasks</span>
+            <span class="nav-badge" id="sidebarTaskCount">12</span>
+          </div>
+          <div class="nav-item" data-page="analytics">
+            <i class="fas fa-chart-pie"></i>
+            <span>Analytics</span>
+          </div>
+          <div class="nav-item" data-page="team">
+            <i class="fas fa-users"></i>
+            <span>Team</span>
+          </div>
+          <div class="nav-item" data-page="settings">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+          </div>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="user-profile">
+            <div class="user-avatar">
+              <span>JD</span>
+            </div>
+            <div class="user-info">
+              <span class="user-name">Jamie Doe</span>
+              <span class="user-role">Product Lead</span>
+            </div>
+            <button class="user-menu" id="userMenuBtn">
+              <i class="fas fa-ellipsis-v"></i>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content" id="mainContent">
+        <!-- Header -->
+        <header class="header">
+          <div class="header-left">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+              <i class="fas fa-bars"></i>
+            </button>
+            <div class="welcome-text" id="welcomeText">
+              <h1>Welcome back, Jamie! 👋</h1>
+              <p>
+                You have
+                <span class="highlight-text" id="taskCount">0</span> tasks to
+                complete today
+              </p>
+            </div>
+          </div>
+
+          <div class="header-right">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input
+                type="text"
+                placeholder="Search tasks..."
+                id="searchInput"
+              />
+            </div>
+            <button class="notification-btn" id="notificationBtn">
+              <i class="fas fa-bell"></i>
+              <span class="notification-badge" id="notificationBadge">3</span>
+            </button>
+            <button class="theme-toggle" id="themeToggle">
+              <i class="fas fa-moon"></i>
+            </button>
+          </div>
+        </header>
+
+        <!-- Dynamic Content Pages -->
+        <div class="content-pages">
+          <!-- Dashboard Page -->
+          <div class="page active" id="dashboard-page">
+            <!-- Task Stats -->
+            <div class="stats-grid">
+              <div class="stat-card" style="--stat-color: #ff6b6b">
+                <div class="stat-icon">
+                  <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-content">
+                  <span class="stat-label">Pending</span>
+                  <span class="stat-value" id="pendingCount">0</span>
+                </div>
+              </div>
+              <div class="stat-card" style="--stat-color: #4ecdc4">
+                <div class="stat-icon">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                  <span class="stat-label">Completed</span>
+                  <span class="stat-value" id="completedCount">0</span>
+                </div>
+              </div>
+              <div class="stat-card" style="--stat-color: #a8e6cf">
+                <div class="stat-icon">
+                  <i class="fas fa-star"></i>
+                </div>
+                <div class="stat-content">
+                  <span class="stat-label">High Priority</span>
+                  <span class="stat-value" id="highPriorityCount">0</span>
+                </div>
+              </div>
+              <div class="stat-card" style="--stat-color: #ffd93d">
+                <div class="stat-icon">
+                  <i class="fas fa-fire"></i>
+                </div>
+                <div class="stat-content">
+                  <span class="stat-label">Total Tasks</span>
+                  <span class="stat-value" id="totalTasks">0</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Task Board -->
+            <div class="board-header">
+              <h2>Task Board</h2>
+              <div class="board-actions">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="pending">
+                  Pending
+                </button>
+                <button class="filter-btn" data-filter="completed">
+                  Completed
+                </button>
+                <button class="filter-btn" data-filter="high">
+                  High Priority
+                </button>
+                <select class="sort-select" id="sortSelect">
+                  <option value="date-desc">Newest First</option>
+                  <option value="date-asc">Oldest First</option>
+                  <option value="priority">Priority</option>
+                  <option value="alpha">A-Z</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Task Grid -->
+            <div class="task-grid" id="taskGrid">
+              <!-- Tasks will be dynamically inserted here -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState">
+              <div class="empty-illustration">
+                <i class="fas fa-tasks"></i>
+              </div>
+              <h3>No tasks yet</h3>
+              <p>Create your first task to get started</p>
+              <button class="btn-primary" id="emptyStateAddBtn">
+                <i class="fas fa-plus"></i> Add Your First Task
+              </button>
+            </div>
+          </div>
+
+          <!-- Tasks Page -->
+          <div class="page" id="tasks-page">
+            <div class="page-header">
+              <h2>All Tasks</h2>
+              <button class="btn-primary" id="tasksPageAddBtn">
+                <i class="fas fa-plus"></i> New Task
+              </button>
+            </div>
+            <div class="tasks-list" id="tasksList">
+              <!-- Will be populated with tasks -->
+            </div>
+          </div>
+
+          <!-- Analytics Page -->
+          <div class="page" id="analytics-page">
+            <div class="page-header">
+              <h2>Analytics Dashboard</h2>
+              <select class="analytics-select" id="analyticsTimeframe">
+                <option value="week">This Week</option>
+                <option value="month">This Month</option>
+                <option value="year">This Year</option>
+              </select>
+            </div>
+
+            <div class="analytics-grid">
+              <div class="analytics-card">
+                <h3>Task Completion Rate</h3>
+                <div class="chart-container">
+                  <div class="progress-circle" id="completionRate">
+                    <span class="progress-value">0%</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="analytics-card">
+                <h3>Tasks by Priority</h3>
+                <div class="priority-chart" id="priorityChart">
+                  <!-- Will be populated by JS -->
+                </div>
+              </div>
+
+              <div class="analytics-card full-width">
+                <h3>Weekly Activity</h3>
+                <div class="activity-bars" id="activityBars">
+                  <!-- Will be populated by JS -->
+                </div>
+              </div>
+
+              <div class="analytics-card">
+                <h3>Productivity Score</h3>
+                <div class="score-display" id="productivityScore">
+                  <span class="score-value">85</span>
+                  <span class="score-label">/100</span>
+                </div>
+                <div class="score-trend positive">
+                  <i class="fas fa-arrow-up"></i> +12% from last week
+                </div>
+              </div>
+
+              <div class="analytics-card">
+                <h3>Category Distribution</h3>
+                <div class="category-list" id="categoryDistribution">
+                  <!-- Will be populated by JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Team Page -->
+          <div class="page" id="team-page">
+            <div class="page-header">
+              <h2>Team Members</h2>
+              <button class="btn-primary" id="inviteMemberBtn">
+                <i class="fas fa-user-plus"></i> Invite Member
+              </button>
+            </div>
+
+            <div class="team-grid" id="teamGrid">
+              <div class="team-card">
+                <div
+                  class="team-avatar"
+                  style="background: linear-gradient(135deg, #ff6b6b, #ff8e8e)"
+                >
+                  <span>JD</span>
+                </div>
+                <h3>Jamie Doe</h3>
+                <p class="team-role">Product Lead</p>
+                <div class="team-stats">
+                  <span><i class="fas fa-tasks"></i> 24 tasks</span>
+                  <span><i class="fas fa-check-circle"></i> 18 completed</span>
+                </div>
+              </div>
+
+              <div class="team-card">
+                <div
+                  class="team-avatar"
+                  style="background: linear-gradient(135deg, #4ecdc4, #97e0da)"
+                >
+                  <span>AS</span>
+                </div>
+                <h3>Alex Smith</h3>
+                <p class="team-role">Frontend Developer</p>
+                <div class="team-stats">
+                  <span><i class="fas fa-tasks"></i> 18 tasks</span>
+                  <span><i class="fas fa-check-circle"></i> 15 completed</span>
+                </div>
+              </div>
+
+              <div class="team-card">
+                <div
+                  class="team-avatar"
+                  style="background: linear-gradient(135deg, #ffd93d, #ffe170)"
+                >
+                  <span>MJ</span>
+                </div>
+                <h3>Maria Jones</h3>
+                <p class="team-role">UI Designer</p>
+                <div class="team-stats">
+                  <span><i class="fas fa-tasks"></i> 15 tasks</span>
+                  <span><i class="fas fa-check-circle"></i> 12 completed</span>
+                </div>
+              </div>
+
+              <div class="team-card">
+                <div
+                  class="team-avatar"
+                  style="background: linear-gradient(135deg, #a8e6cf, #b8f0d9)"
+                >
+                  <span>RK</span>
+                </div>
+                <h3>Raj Kumar</h3>
+                <p class="team-role">Backend Developer</p>
+                <div class="team-stats">
+                  <span><i class="fas fa-tasks"></i> 21 tasks</span>
+                  <span><i class="fas fa-check-circle"></i> 19 completed</span>
+                </div>
+              </div>
+
+              <div class="team-card">
+                <div
+                  class="team-avatar"
+                  style="background: linear-gradient(135deg, #9b6bff, #b28eff)"
+                >
+                  <span>SL</span>
+                </div>
+                <h3>Sarah Lee</h3>
+                <p class="team-role">Product Manager</p>
+                <div class="team-stats">
+                  <span><i class="fas fa-tasks"></i> 12 tasks</span>
+                  <span><i class="fas fa-check-circle"></i> 10 completed</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Settings Page -->
+          <div class="page" id="settings-page">
+            <div class="page-header">
+              <h2>Settings</h2>
+              <button class="btn-primary" id="saveSettingsBtn">
+                <i class="fas fa-save"></i> Save Changes
+              </button>
+            </div>
+
+            <div class="settings-grid">
+              <div class="settings-card">
+                <h3>Profile Settings</h3>
+                <div class="settings-form">
+                  <div class="form-group">
+                    <label>Display Name</label>
+                    <input type="text" value="Jamie Doe" id="displayName" />
+                  </div>
+                  <div class="form-group">
+                    <label>Email</label>
+                    <input
+                      type="email"
+                      value="jamie.doe@company.com"
+                      id="userEmail"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label>Role</label>
+                    <select id="userRole">
+                      <option>Product Lead</option>
+                      <option>Developer</option>
+                      <option>Designer</option>
+                      <option>Manager</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="settings-card">
+                <h3>Notifications</h3>
+                <div class="settings-list">
+                  <div class="settings-item">
+                    <div class="settings-item-info">
+                      <span>Email Notifications</span>
+                      <small>Receive updates via email</small>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" checked id="emailNotif" />
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+                  <div class="settings-item">
+                    <div class="settings-item-info">
+                      <span>Push Notifications</span>
+                      <small>Browser notifications</small>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" checked id="pushNotif" />
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+                  <div class="settings-item">
+                    <div class="settings-item-info">
+                      <span>Task Reminders</span>
+                      <small>Get reminded about due dates</small>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" checked id="taskReminders" />
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="settings-card">
+                <h3>Appearance</h3>
+                <div class="settings-form">
+                  <div class="form-group">
+                    <label>Theme</label>
+                    <select id="themeSelect">
+                      <option value="dark">Dark Mode</option>
+                      <option value="light">Light Mode</option>
+                      <option value="system">System Default</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Accent Color</label>
+                    <div class="color-options">
+                      <button
+                        class="color-option active"
+                        style="background: #ff6b6b"
+                        data-color="coral"
+                      ></button>
+                      <button
+                        class="color-option"
+                        style="background: #4ecdc4"
+                        data-color="turquoise"
+                      ></button>
+                      <button
+                        class="color-option"
+                        style="background: #9b6bff"
+                        data-color="purple"
+                      ></button>
+                      <button
+                        class="color-option"
+                        style="background: #ffd93d"
+                        data-color="yellow"
+                      ></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="settings-card">
+                <h3>Security</h3>
+                <div class="settings-list">
+                  <div class="settings-item">
+                    <div class="settings-item-info">
+                      <span>Two-Factor Authentication</span>
+                      <small>Add extra security</small>
+                    </div>
+                    <button class="btn-outline">Enable</button>
+                  </div>
+                  <div class="settings-item">
+                    <div class="settings-item-info">
+                      <span>Change Password</span>
+                      <small>Update your password</small>
+                    </div>
+                    <button class="btn-outline">Update</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Task Modal -->
+      <div class="modal-overlay" id="taskModal">
+        <div class="modal-container">
+          <div class="modal-header">
+            <h3 id="modalTitle">Create New Task</h3>
+            <button class="modal-close" id="closeModalBtn">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="taskForm">
+              <div class="form-group">
+                <label for="taskTitle">Task Title</label>
+                <input
+                  type="text"
+                  id="taskTitle"
+                  placeholder="e.g., Design new dashboard"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="taskDescription">Description</label>
+                <textarea
+                  id="taskDescription"
+                  rows="3"
+                  placeholder="Add details about this task..."
+                ></textarea>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="taskPriority">Priority</label>
+                  <select id="taskPriority">
+                    <option value="low">Low</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="taskCategory">Category</label>
+                  <select id="taskCategory">
+                    <option value="work">Work</option>
+                    <option value="personal">Personal</option>
+                    <option value="design">Design</option>
+                    <option value="development">Development</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="taskDueDate">Due Date</label>
+                <input type="date" id="taskDueDate" />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn-secondary" id="cancelModalBtn">Cancel</button>
+            <button class="btn-primary" id="saveTaskBtn">
+              <i class="fas fa-plus"></i> Create Task
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notifications Panel -->
+      <div class="notifications-panel" id="notificationsPanel">
+        <div class="panel-header">
+          <h3>Notifications</h3>
+          <button class="close-panel" id="closeNotificationsBtn">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="notifications-list" id="notificationsList">
+          <!-- Will be populated by JS -->
+        </div>
+      </div>
+
+      <!-- User Menu Dropdown -->
+      <div class="user-dropdown" id="userDropdown">
+        <div class="dropdown-item">
+          <i class="fas fa-user"></i>
+          <span>Profile</span>
+        </div>
+        <div class="dropdown-item">
+          <i class="fas fa-cog"></i>
+          <span>Settings</span>
+        </div>
+        <div class="dropdown-item">
+          <i class="fas fa-question-circle"></i>
+          <span>Help</span>
+        </div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Logout</span>
+        </div>
+      </div>
+
+      <!-- Floating Action Button -->
+      <button class="fab" id="fabBtn">
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
