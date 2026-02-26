@@ -1,6 +1,6 @@
  Chromatic Task Board for  Project Management
 
-A vibrant, colorful task management interface built for managing tasks.
+A vibrant, colorful task management interface built for tracking and managing tasks.
 
 <img width="1366" height="768" alt="Screenshot (38)" src="https://github.com/user-attachments/assets/75405bdf-0574-4ddd-a88a-3fb321331a37" />
 
